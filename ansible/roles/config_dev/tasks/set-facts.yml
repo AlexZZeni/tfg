@@ -1,0 +1,25 @@
+---
+- name: Install jq
+  apt:
+    name: jq
+    state: present
+
+- name: Get OS Arch
+  shell:
+    cmd: dpkg --print-architecture
+  register: os_arch
+
+- name: Get OS relese
+  shell:
+    cmd: lsb_release -cs
+  register: os_release
+
+- name: Get Go version
+  shell:
+    cmd: curl -s https://go.dev/VERSION\?m=text | grep -o -E '[0-9.,]+'
+  register: ansible_go_version
+
+- name: Get node version
+  shell:
+    cmd: curl -s 'https://nodejs.org/download/release/index.json' | jq '.[] | select(.lts != false) | .version' | head -n1 | sed -e 's/^"//' -e 's/"$//' | grep -o -E '[0-9.,]+'
+  register: ansible_node_version

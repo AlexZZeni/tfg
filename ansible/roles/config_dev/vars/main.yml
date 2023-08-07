@@ -1,0 +1,57 @@
+---
+### Default variables ###
+system_username: "{{ansible_system_username}}"
+node_version: "{{ansible_node_version.stdout}}"
+go_version: "{{ansible_go_version.stdout}}"
+only_nginx_config: false
+
+
+### oh-my-zsh ###
+# Default theme
+oh_my_zsh_theme: robbyrussell
+
+# Default plugins
+oh_my_zsh_plugins:
+  - git
+  - asdf
+
+# Wether to install by default for all specified users.
+# May be overridden by `oh_my_zsh: install:` under each user.
+oh_my_zsh_install: yes
+
+# User configuration
+# Important: oh-my-zsh is installed per user so you need to specify the users to install it for.
+users:
+  - username: "{{ system_username }}"
+
+### asdf ###
+# defaults file for asdf
+asdf_version: "v0.8.1"
+asdf_user: "{{ system_username }}"
+asdf_group: "{{ system_username }}"
+# defaults to ~/.asdf for the specified user
+#asdf_dir: "/opt/asdf-vm"
+asdf_legacy_version_file: "yes"
+
+asdf_plugins:
+  - name: "nodejs"
+    versions:
+      - "{{node_version}}"
+  - name: "golang "
+    versions:
+      - "{{go_version}}"
+
+### nginx variables ###
+cert_name: "localhost.dev"
+cert_location: "/media/nginx/"
+default_port: 9080
+default_protocol: "http"
+proxys:
+  - name: "pato-process"
+    location: "/pato/process/"
+    destination_port: "5000"
+    protocol: "http"
+  - name: "pato-auth"
+    location: "/pato/auth/"
+    destination_port: "2000"
+    protocol: "http"

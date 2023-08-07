@@ -1,0 +1,52 @@
+# ------------------------------------------------------------
+# 192.168.203.40, localdev.dev
+# ------------------------------------------------------------
+
+server {
+  set $forward_scheme http;
+  set $server         "192.168.203.40";
+  set $port           9080;
+
+  listen 80;
+listen [::]:80;
+
+listen 443 ssl http2;
+listen [::]:443 ssl http2;
+
+  server_name 192.168.203.40 localdev.dev;
+
+  # Custom SSL
+  ssl_certificate /data/custom_ssl/npm-5/fullchain.pem;
+  ssl_certificate_key /data/custom_ssl/npm-5/privkey.pem;
+
+  access_log /data/logs/proxy-host-1_access.log proxy;
+  error_log /data/logs/proxy-host-1_error.log warn;
+
+
+  location /pato/process/ {
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Scheme $scheme;
+    proxy_set_header X-Forwarded-Proto  $scheme;
+    proxy_set_header X-Forwarded-For    $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_pass       http://192.168.203.40:5000/;
+  }
+
+  location /pato/auth/ {
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Scheme $scheme;
+    proxy_set_header X-Forwarded-Proto  $scheme;
+    proxy_set_header X-Forwarded-For    $remote_addr;
+    proxy_set_header X-Real-IP          $remote_addr;
+    proxy_pass       http://192.168.203.40:2000/;
+  }
+
+  location / {
+    # Proxy!
+    include conf.d/include/proxy.conf;
+  }
+
+
+  # Custom
+  include /data/nginx/custom/server_proxy[.]conf;
+}

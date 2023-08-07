@@ -35,3 +35,13 @@ terraform-deploy:
 
 ############## Ansible #################################
 ansible_directory := ansible/
+
+ansible-pre:
+	-rm -r $${HOME}/${ansible_directory}
+	cp -r ${ansible_directory} $${HOME}
+	chmod 600 $${HOME}/ansible/inventories/keys/master/master_key
+	chmod 644 $${HOME}/ansible/inventories/keys/master/master_key.pub
+
+ansible-deploy:
+	cd ${ansible_directory} && \
+		ansible-playbook bootstrap.yml

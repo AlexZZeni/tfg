@@ -1,0 +1,15 @@
+---
+- name: Install zsh 
+  apt:
+    name:
+      - zsh
+    state: present
+
+- name: Install oh-my-zsh
+  include_role: 
+    name: collections/gantsign.oh-my-zsh
+
+- name: Change user shell
+  user:
+    name: "{{system_username}}"
+    shell: /bin/zsh

@@ -1,0 +1,27 @@
+---
+- name: Uninstall Docker old versions
+  apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: Add Docker official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Set up Docker APT repository
+  apt_repository:
+    repo: deb [arch={{os_arch.stdout}}] https://download.docker.com/linux/ubuntu {{os_release.stdout}} stable
+
+- name: Install docker
+  apt:
+    name:
+      - docker-ce 
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present

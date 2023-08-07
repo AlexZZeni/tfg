@@ -1,0 +1,7 @@
+- hosts: dev-new
+  remote_user: "{{ansible_system_username}}"
+  become_user: "root"
+  roles:
+    - role: config_dev
+      tags:
+        - dev

@@ -1,0 +1,29 @@
+---
+- name: Set facts
+  include_tasks: set-facts.yml
+
+- name: Update and install packages
+  include_tasks: install.yml
+
+- name: Install zsh and oh-my-zsh
+  include_tasks: zsh.yml
+
+- name: Install asdf
+  include_tasks: asdf.yml
+
+- name: Install Yarn
+  apt:
+    name: yarn
+
+- name: Install docker
+  include_tasks: docker.yml
+
+- name: Install docker container
+  include_tasks: docker_post.yml
+
+- name: Install docker container
+  include_tasks: nginx.yml
+
+- name: Fix max watched files
+  shell:
+    cmd: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

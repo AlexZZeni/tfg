@@ -1,0 +1,41 @@
+---
+- name: Add the user to the docker group
+  shell:
+    cmd: usermod -aG docker {{system_username}}
+
+- name: Install python
+  apt:
+    name:
+      - python3
+      - python3-pip
+    state: present
+
+- name: Install pip packages
+  pip:
+    name:
+      - docker
+
+- name: Install portainer docker
+  docker_container:
+    name: Portainer
+    image: portainer/portainer-ce:latest
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      # - 8000:8000
+      - 9444:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /media/portainer:/data
+
+- name: Install Dozzle docker
+  docker_container:
+    name: Dozzle
+    image: amir20/dozzle:latest
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      # - 8000:8000
+      - 9445:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
