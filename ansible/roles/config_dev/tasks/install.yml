@@ -24,4 +24,5 @@
       - dirmngr
       - gpg
       - gawk
+      - libncurses5
     state: present
