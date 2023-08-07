@@ -23,7 +23,8 @@ resource "proxmox_vm_qemu" "dev_resources" {
     var.common.clone
   ])
   sshkeys = join("", [
-    yamldecode(data.local_file.secrets.content).ssh_authorized_keys
+    yamldecode(data.local_file.secrets.content).ssh_authorized_keys,
+    data.local_file.master_key_pub.content
   ])
 
   vga {
