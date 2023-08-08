@@ -26,3 +26,23 @@
       - gawk
       - libncurses5
     state: present
+
+- name: Install yarn 1
+  shell:
+    cmd: sudo install -m 0755 -d /etc/apt/keyrings
+
+- name: Install yarn 2
+  shell:
+    cmd: curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/yarn.gpg
+
+- name: Install yarn 3
+  shell:
+    cmd: sudo chmod a+r /etc/apt/keyrings/yarn.gpg
+
+- name: Install yarn 4
+  shell:
+    cmd: echo "deb [signed-by=/etc/apt/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+- name: Install yarn 5
+  shell:
+    cmd: sudo apt update && sudo apt install -y yarn

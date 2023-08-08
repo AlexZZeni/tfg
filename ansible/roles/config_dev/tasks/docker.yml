@@ -9,19 +9,28 @@
       - runc
     state: absent
 
-- name: Add Docker official GPG key
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
+- name: Add Docker official GPG key 1
+  shell: 
+    cmd: sudo install -m 0755 -d /etc/apt/keyrings
+
+- name: Add Docker official GPG key 2
+  shell: 
+    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+- name: Add Docker official GPG key 3
+  shell: 
+    cmd: sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
 - name: Set up Docker APT repository
   apt_repository:
-    repo: deb [arch={{os_arch.stdout}}] https://download.docker.com/linux/ubuntu {{os_release.stdout}} stable
+    repo: deb [arch={{os_arch.stdout}} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{os_release.stdout}} stable
 
 - name: Install docker
   apt:
     name:
       - docker-ce 
-      - docker-ce-cli
-      - containerd.io
+      - docker-ce-cli 
+      - containerd.io 
+      - docker-buildx-plugin 
       - docker-compose-plugin
     state: present

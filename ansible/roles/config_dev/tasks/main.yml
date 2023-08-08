@@ -11,10 +11,6 @@
 - name: Install asdf
   include_tasks: asdf.yml
 
-- name: Install Yarn
-  apt:
-    name: yarn
-
 - name: Install docker
   include_tasks: docker.yml
 
