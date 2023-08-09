@@ -12,3 +12,9 @@ provider "proxmox" {
     _capturelog = ""
   }
 }
+
+provider "aws" {
+    region = yamldecode(data.local_file.secrets.content).region
+    access_key = yamldecode(data.local_file.secrets.content).access_key
+    secret_key = yamldecode(data.local_file.secrets.content).secret_key
+}

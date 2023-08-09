@@ -1,5 +1,6 @@
 terraform {
   required_providers {
+    # Proxmox
     proxmox = {
       source  = "Telmate/proxmox"
       version = "2.9.14"
@@ -12,6 +13,12 @@ terraform {
     }
     local = {
       version = "2.4.0"
+    }
+
+    # AWS
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.11.0"
     }
   }
 }
