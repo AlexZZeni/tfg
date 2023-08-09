@@ -1,4 +1,4 @@
-resource "aws_instance" "development-vm" {
+resource "aws_instance" "development_vm" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name = aws_key_pair.master_key.key_name
@@ -8,7 +8,6 @@ resource "aws_instance" "development-vm" {
 resource "aws_security_group" "permitir_ssh_http" {
   name        = "permitir_ssh"
   description = "Permite SSH e HTTP na instancia EC2"
-  # vpc_id      = var.tcb_blog_vpc_id
 
   ingress {
     description = "SSH to EC2"
