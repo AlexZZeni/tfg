@@ -1,8 +1,15 @@
 resource "aws_instance" "development_vm" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  # instance_type = "t2.micro"
+  instance_type = "t2.xlarge"
   key_name = aws_key_pair.master_key.key_name
   vpc_security_group_ids = [aws_security_group.permitir_ssh_http.id]
+
+  ebs_block_device {
+    device_name = "/dev/sda1"
+    volume_size = 75
+    volume_type = "gp2"
+  }
 }
 
 resource "aws_security_group" "permitir_ssh_http" {
