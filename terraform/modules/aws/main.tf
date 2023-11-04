@@ -1,6 +1,5 @@
-resource "aws_instance" "development_vm" {
+resource "aws_instance" "dev_resources" {
   ami           = data.aws_ami.ubuntu.id
-  # instance_type = "t2.micro"
   instance_type = "t2.xlarge"
   key_name = aws_key_pair.master_key.key_name
   vpc_security_group_ids = [aws_security_group.permitir_ssh_http.id]
@@ -13,7 +12,7 @@ resource "aws_instance" "development_vm" {
 }
 
 resource "aws_security_group" "permitir_ssh_http" {
-  name        = "permitir_ssh"
+  name        = "permitir_ssh_http"
   description = "Permite SSH e HTTP na instancia EC2"
 
   ingress {
@@ -28,6 +27,14 @@ resource "aws_security_group" "permitir_ssh_http" {
     description = "HTTP to EC2"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS to EC2"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
