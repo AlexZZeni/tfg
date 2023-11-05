@@ -31,6 +31,8 @@ Para inicializar o terraform executar o seguinte comando:
 terraform  init && terraform  get
 ```
 
+![terraform_init_get](./img/terraform_init_get.png)
+
 Para exibir as ações que serão executadas pelo terraform rode o seguinte comando:
 
 ```bash
@@ -42,6 +44,10 @@ Para executar as ações do terraform rode o seguinte comando:
 ```bash
 terraform  apply  -auto-approve
 ```
+
+![terraform_apply_aws](./img/terraform_apply_aws.png)
+
+![terraform_apply_proxmox](./img/terraform_apply_proxmox.png)
 
 ## Execução do Ansible
 
@@ -56,5 +62,9 @@ Para executar as ações do ansible rode o seguinte comando:
 ```bash
 ansible-playbook  bootstrap.yml
 ```
+
+![ansible_config_proxmox](./img/ansible_config_proxmox.png)
+
+![ansible_config_proxmox_2](./img/ansible_config_proxmox_2.png)
 
 ## Referências
